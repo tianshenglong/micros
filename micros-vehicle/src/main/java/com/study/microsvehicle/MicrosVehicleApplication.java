@@ -18,6 +18,7 @@ public class MicrosVehicleApplication {
     @Bean
     @LoadBalanced
     RestTemplate restTemplate() {
+        System.out.println();
         return new RestTemplate();
     }
 }
