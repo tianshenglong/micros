@@ -1,0 +1,18 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}
+    #    instance-id: ${eureka.instance.ip-address}:${spring.application.name}:${server.port}
+    status-page-url: http://${eureka.instance.ip-address}:${server.port}/actuator/info
+    health-check-url: http://${eureka.instance.ip-address}:${server.port}/actuator/health
+    home-page-url: http://${eureka.instance.ip-address}:${server.port}/
+server:
+  port: 8202
+  undertow:
+    accesslog:
+      enabled: true
+      dir: logs/server
