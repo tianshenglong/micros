@@ -17,6 +17,13 @@ eureka:
 #      study:
 #        microsuser:
 #          dao: debug
+
+#启用hystrix
+feign:
+  hystrix:
+    enabled: true
+
+
 server:
   port: 8203
   undertow:
