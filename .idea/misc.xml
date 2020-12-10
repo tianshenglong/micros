@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/micros-elasticsearch/pom.xml" />
         <option value="$PROJECT_DIR$/micros-redis/pom.xml" />
         <option value="$PROJECT_DIR$/micros-vehicle/pom.xml" />
+        <option value="$PROJECT_DIR$/micros-config/pom.xml" />
       </list>
     </option>
   </component>

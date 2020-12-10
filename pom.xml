@@ -15,6 +15,7 @@
         <module>gateway</module>
         <module>micros-elasticsearch</module>
         <module>micros-vehicle</module>
+        <module>micros-config</module>
     </modules>
 
     <parent>

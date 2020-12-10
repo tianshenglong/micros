@@ -2,6 +2,7 @@ package com.study.microsvehicle.controller;
 
 import com.study.microsvehicle.feign.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
  */
 
 @RestController
+@RefreshScope
 public class HelloController {
 
     /**

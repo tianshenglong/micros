@@ -1,0 +1,60 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}
+    #    instance-id: ${eureka.instance.ip-address}:${spring.application.name}:${server.port}
+    status-page-url: http://${eureka.instance.ip-address}:${server.port}/actuator/info
+    health-check-url: http://${eureka.instance.ip-address}:${server.port}/actuator/health
+    home-page-url: http://${eureka.instance.ip-address}:${server.port}/
+server:
+  port: 8201
+  undertow:
+    accesslog:
+      enabled: true
+      dir: logs/server
+spring:
+  application:
+    name: micros-user
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: always
+    time-zone: GMT+8
+  cloud:
+    config:
+      name: micros-user
+      # 配置服务的URL【如果使用eureka，则不再写URL，使用下面的discovery的形式】
+      #      uri: http://127.0.0.1:8087/
+      discovery:
+        enabled: false
+        service-id: micros-config
+      uri: http://localhost:8888
+      enabled: true
+      #启动什么环境下的配置
+      profile: dev
+feign:
+  hystrix:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
+    caches:
+      enabled: true
+      mappings:
+        enabled: true
+      beans:
+        enabled: true
+      info:
+        enabled: true
+      configprops:
+        enabled: true
+  endpoint:
+    health:
+      show-details: always
+  server: # 指定actuator端口。如果不指定则与系统服务端口一致。建议修改
+    port: 8887
