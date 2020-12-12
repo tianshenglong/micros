@@ -1,0 +1,151 @@
+<configuration>
+	<!-- ==================== -->
+	<!--         属性          -->
+	<!-- ==================== -->
+	<property name="PROJECT_NAME" value="micros-business-vehicle"/>
+	<property name="LOG_HOME" value="./logs"/>
+	<!-- 输出格式 -->
+	<property name="out.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] [%thread] [%class:%line] [%X{id}] - %m%n" />
+	<!-- 活动文件的大小 -->
+	<property name="max.file.size" value="1024MB"/>
+	<!-- 保留的归档文件的最大数量 -->
+	<property name="max.history" value="30"/>
+	<!-- 控制所有归档日志文件的总大小 -->
+	<property name="total.size.cap" value="100GB"/>
+
+	<!-- ==================== -->
+	<!--        控制台         -->
+	<!-- ==================== -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${out.pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- ==================== -->
+	<!--      FILE_DEBUG      -->
+	<!-- ==================== -->
+	<appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${PROJECT_NAME}-debug.log</file>
+		<encoder>
+			<pattern>${out.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/${PROJECT_NAME}-debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${max.file.size}</maxFileSize>
+			<MaxHistory>${max.history}</MaxHistory>
+			<totalSizeCap>${total.size.cap}</totalSizeCap>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+	</appender>
+
+	<!-- ==================== -->
+	<!--      FILE_INFO      -->
+	<!-- ==================== -->
+	<appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${PROJECT_NAME}-info.log</file>
+		<encoder>
+			<pattern>${out.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/${PROJECT_NAME}-info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${max.file.size}</maxFileSize>
+			<MaxHistory>${max.history}</MaxHistory>
+			<totalSizeCap>${total.size.cap}</totalSizeCap>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+	</appender>
+
+	<!-- ==================== -->
+	<!--      FILE_WARN      -->
+	<!-- ==================== -->
+	<appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${PROJECT_NAME}-warn.log</file>
+		<encoder>
+			<pattern>${out.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/${PROJECT_NAME}-warn.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${max.file.size}</maxFileSize>
+			<MaxHistory>${max.history}</MaxHistory>
+			<totalSizeCap>${total.size.cap}</totalSizeCap>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+	</appender>
+
+	<!-- ==================== -->
+	<!--      FILE_ERROR      -->
+	<!-- ==================== -->
+	<appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${PROJECT_NAME}-error.log</file>
+		<encoder>
+			<pattern>${out.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/${PROJECT_NAME}-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${max.file.size}</maxFileSize>
+			<MaxHistory>${max.history}</MaxHistory>
+			<totalSizeCap>${total.size.cap}</totalSizeCap>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+		</rollingPolicy>
+	</appender>
+	<logger name="org.springframework" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ERROR" />
+	</logger>
+	<logger name="org.hibernate.validator" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ERROR" />
+	</logger>
+	<logger name="com.netflix.discovery" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ERROR" />
+	</logger>
+	<logger name="org.apache.http" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ERROR" />
+	</logger>
+	<logger name="springfox.documentation" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ERROR" />
+	</logger>
+	<logger name="de.codecentric.boot.admin" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE_ERROR" />
+	</logger>
+
+	<!--日志输出级别-->
+	<root level="INFO">
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE_DEBUG"/>
+		<appender-ref ref="FILE_INFO"/>
+		<appender-ref ref="FILE_WARN"/>
+		<appender-ref ref="FILE_ERROR"/>
+	</root>
+</configuration>
