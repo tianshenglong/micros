@@ -27,7 +27,4 @@ spring:
       server:
         native:
           search-locations: file:///D:/config-server/props
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
 

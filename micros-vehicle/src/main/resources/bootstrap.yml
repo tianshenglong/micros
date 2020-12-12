@@ -23,7 +23,17 @@ eureka:
 feign:
   hystrix:
     enabled: true
-
+management:
+  #在Greenwich版本中，需要如下配置暴露/refresh端口，否则无效
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health
+  endpoint:
+    refresh:
+      enabled: true
+    configprops:
+      enabled: true
 server:
   port: 8203
   undertow:
@@ -33,33 +43,14 @@ server:
 spring:
   application:
     name: micros-vehicle
-  profiles:
-    active: dev
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    default-property-inclusion: always
-    time-zone: GMT+8
   cloud:
     config:
       name: micros-vehicle
-      # 配置服务的URL【如果使用eureka，则不再写URL，使用下面的discovery的形式】
-      #      uri: http://127.0.0.1:8087/
-      discovery:
-        enabled: false
-        service-id: micros-config
-      uri:
-        - http://localhost:8888
-      #        http://localhost:8888
-      enabled: true
-      #启动什么环境下的配置
       profile: dev
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh,health,info
-  endpoint:
-    health:
-      show-details: always
-  server: # 指定actuator端口。如果不指定则与系统服务端口一致。建议修改
-    port: 8887
+      discovery:
+        enabled: true
+        service-id: micros-config
+      uri: http://localhost:8888
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

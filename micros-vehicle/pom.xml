@@ -32,6 +32,11 @@
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+        </dependency>
+
         <!-- 使用 Log4j2 日志 begin -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

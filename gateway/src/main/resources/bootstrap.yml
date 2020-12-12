@@ -13,9 +13,16 @@ eureka:
 info:
   app_name: ${spring.application.name}
   version: '@project.version@'
-feign:
-  hystrix:
-    enabled: true
+
+hystrix:
+  command:
+    default:  #default全局有效，service id指定应用有效
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #断路器超时时间，默认1000ms
 management:
   #在Greenwich版本中，需要如下配置暴露/refresh端口，否则无效
   endpoints:
@@ -28,22 +35,43 @@ management:
     configprops:
       enabled: true
 server:
-  port: 8201
+  port: 8202
   undertow:
     accesslog:
       enabled: true
       dir: logs/server
+
 spring:
   application:
-    name: micros-user
+    name: gateway
+  devtools:
+    restart:
+      enabled: true
   cloud:
     config:
-      name: micros-user
+      fail-fast: true
+      name: gateway
       profile: dev
       discovery:
         enabled: true
         service-id: micros-config
-      uri: http://localhost:8888
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: micros-user
+          # lb 表示负载均衡loadbalance，SERVICE-HI是服务名称
+          uri: lb://micros-user
+          predicates:
+            - Path=/user/**
+          filters:
+            # 转发之前将/demo去掉
+            - StripPrefix=1
+    discovery:
+      enabled: true  #开启从注册中心动态创建路由的功能
+      lower-case-service-id: true #使用小写服务名，默认是大写
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
