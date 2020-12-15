@@ -6,16 +6,20 @@
         <groupId>com.study</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-  <artifactId>micros-vehicle</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-    <module>api</module>
-    <module>service</module>
-  </modules>
-  <properties>
-</properties>
+    <artifactId>micros-vehicle</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>micros-vehicle-api</module>
+        <module>micros-vehicle-service</module>
+    </modules>
+
     <build>
-        <finalName>micros-vehicle</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>

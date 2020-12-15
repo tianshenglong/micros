@@ -1,3 +1,4 @@
+#这里使用的是 bootstrap.yml 这个配置，bootstrap的优先级高于application，很多配置都是要在服务启动前加载，
 eureka:
   client:
     serviceUrl:
@@ -10,19 +11,26 @@ eureka:
     status-page-url: http://${eureka.instance.ip-address}:${server.port}/actuator/info
     health-check-url: http://${eureka.instance.ip-address}:${server.port}/actuator/health
     home-page-url: http://${eureka.instance.ip-address}:${server.port}/
-info:
-  app_name: ${spring.application.name}
-  version: '@project.version@'
+#logging:
+#  config: classpath:log4j2.xml
+#  level:
+#    com:
+#      study:
+#        microsuser:
+#          dao: debug
 
+#启用hystrix
+feign:
+  hystrix:
+    enabled: true
 hystrix:
   command:
-    default:  #default全局有效，service id指定应用有效
+    default:
       execution:
-        timeout:
-          enabled: true
         isolation:
           thread:
-            timeoutInMilliseconds: 5000 #断路器超时时间，默认1000ms
+            timeoutInMilliseconds: 60000
+          strategy: SEMAPHORE
 management:
   #在Greenwich版本中，需要如下配置暴露/refresh端口，否则无效
   endpoints:
@@ -35,15 +43,12 @@ management:
     configprops:
       enabled: true
 server:
-  port: 8202
+  port: 8203
   undertow:
     accesslog:
       enabled: true
       dir: logs/server
-
 spring:
-  application:
-    name: gateway
   sleuth:
     sampler:
       probability: 1.0
@@ -52,42 +57,33 @@ spring:
   devtools:
     restart:
       enabled: true
+  application:
+    name: micros-vehicle
   cloud:
     config:
-      fail-fast: true
-      name: gateway
+      name: micros-vehicle
       profile: dev
       discovery:
         enabled: true
         service-id: micros-config
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: micros-user
-          # lb 表示负载均衡loadbalance，SERVICE-HI是服务名称
-          uri: lb://micros-user
-          predicates:
-            - Path=/user/**
-          filters:
-            # 转发之前将/demo去掉
-            - StripPrefix=1
-        - id: micros-vehicle
-            # lb 表示负载均衡loadbalance，SERVICE-HI是服务名称
-          uri: lb://micros-vehicle
-          predicates:
-            - Path=/vehicle/**
-          filters:
-            # 转发之前将/demo去掉
-            - StripPrefix=1
-    discovery:
-      enabled: true  #开启从注册中心动态创建路由的功能
-      lower-case-service-id: true #使用小写服务名，默认是大写
-
+      uri: http://localhost:8888
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-logging:
-  level:
-    org.springframework.cloud.gateway: debug
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  #pojo类所在包路径
+  type-aliases-package: com.study.microsvehicle.model
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
+    call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
